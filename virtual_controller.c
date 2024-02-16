@@ -16,6 +16,8 @@
 #include <sys/epoll.h>
 #include <sys/ioctl.h>
 
+#include "model_map.h"
+
 #define DEVICE_NAME		"Virtual Gamepad"
 #define DEVICE_VID		0x1234
 #define DEVICE_PID		0x5678
@@ -306,8 +308,8 @@ int create_uinput_device(struct virtual_device *v_dev)
 	}
 
 	v_dev->usetup.id.bustype = BUS_HOST;
-	v_dev->usetup.id.vendor = DEVICE_VID;
-	v_dev->usetup.id.product = DEVICE_PID;
+	v_dev->usetup.id.vendor = get_vendor();
+	v_dev->usetup.id.product = get_product();
 	sprintf(v_dev->usetup.name, DEVICE_NAME);
 
 	ret = ioctl(v_dev->uinput_fd, UI_DEV_SETUP, &v_dev->usetup);
